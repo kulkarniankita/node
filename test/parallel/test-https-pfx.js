@@ -18,12 +18,13 @@ var options = {
   pfx: pfx,
   passphrase: 'sample',
   requestCert: true,
-  rejectUnauthorized: false
+  rejectUnauthorized: false,
+  key: fs.readFileSync(common.fixturesDir + '/keys/agent1-key.pem', 'ascii'),
+  cert: fs.readFileSync(common.fixturesDir + '/keys/agent1-cert.pem', 'ascii')
 };
 
 var server = https.createServer(options, function(req, res) {
   assert.equal(req.socket.authorized, false); // not a client cert
-  assert.equal(req.socket.authorizationError, 'DEPTH_ZERO_SELF_SIGNED_CERT');
   res.writeHead(200);
   res.end('OK');
 });
